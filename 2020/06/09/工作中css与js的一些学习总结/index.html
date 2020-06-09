@@ -75,15 +75,20 @@
 
 
 
-<meta name="description" content="front-end blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="kang&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="一、CSS 部分1.1 pointer-events在工作中，有一个需求是：在蒙版（也就是为了达到一些视觉效果，在轮播最左和最右的 item 上层加一个 div）上，需要点击到底层的 item。通俗的讲，就是有两个 div，一个 div 的 z-index 大，在上层，另外一个 div 的 z-index 小，在下层。需要做到点击这 2 个 div 所在的重叠区域，触发下层 div 的点击事件，而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作中css与js的一些学习总结">
+<meta property="og:url" content="http://yoursite.com/2020/06/09/%E5%B7%A5%E4%BD%9C%E4%B8%ADcss%E4%B8%8Ejs%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="kang&#39;s blog">
-<meta property="og:description" content="front-end blog">
+<meta property="og:description" content="一、CSS 部分1.1 pointer-events在工作中，有一个需求是：在蒙版（也就是为了达到一些视觉效果，在轮播最左和最右的 item 上层加一个 div）上，需要点击到底层的 item。通俗的讲，就是有两个 div，一个 div 的 z-index 大，在上层，另外一个 div 的 z-index 小，在下层。需要做到点击这 2 个 div 所在的重叠区域，触发下层 div 的点击事件，而">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/06/09/pic/1/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/09/pic/1/2.png">
+<meta property="article:published_time" content="2020-06-09T03:14:16.000Z">
+<meta property="article:modified_time" content="2020-06-09T03:56:29.368Z">
 <meta property="article:author" content="XiaoKang Chen">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/09/pic/1/1.png">
 
 
 
@@ -113,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/06/09/工作中css与js的一些学习总结/"/>
 
 
 
 
 
-  <title>kang's blog</title>
+  <title>工作中css与js的一些学习总结 | kang's blog</title>
   
 
 
@@ -138,8 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -242,9 +246,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -274,9 +278,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/06/09/%E5%B7%A5%E4%BD%9C%E4%B8%ADcss%E4%B8%8Ejs%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" itemprop="url">工作中css与js的一些学习总结</a></h2>
+          <h2 class="post-title" itemprop="name headline">工作中css与js的一些学习总结</h2>
         
 
         <div class="post-meta">
@@ -308,6 +310,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
 
           
 
@@ -326,9 +333,7 @@
       
 
       
-        
-          
-            <h2 id="一、CSS-部分"><a href="#一、CSS-部分" class="headerlink" title="一、CSS 部分"></a>一、CSS 部分</h2><h3 id="1-1-pointer-events"><a href="#1-1-pointer-events" class="headerlink" title="1.1 pointer-events"></a>1.1 pointer-events</h3><p>在工作中，有一个需求是：在蒙版（也就是为了达到一些视觉效果，在轮播最左和最右的 item 上层加一个 div）上，需要点击到底层的 item。通俗的讲，就是有两个 div，一个 div 的 z-index 大，在上层，另外一个 div 的 z-index 小，在下层。需要做到点击这 2 个 div 所在的重叠区域，触发下层 div 的点击事件，而不触发上层的 div 点击事件。<br>这里就可以用到 pointer-events 属性。<strong>它可以指定在什么情况下 (如果有) 某个特定的图形元素可以成为鼠标事件的 target</strong>。<br><font color='red'>常用的取值如下：</font></p>
+        <h2 id="一、CSS-部分"><a href="#一、CSS-部分" class="headerlink" title="一、CSS 部分"></a>一、CSS 部分</h2><h3 id="1-1-pointer-events"><a href="#1-1-pointer-events" class="headerlink" title="1.1 pointer-events"></a>1.1 pointer-events</h3><p>在工作中，有一个需求是：在蒙版（也就是为了达到一些视觉效果，在轮播最左和最右的 item 上层加一个 div）上，需要点击到底层的 item。通俗的讲，就是有两个 div，一个 div 的 z-index 大，在上层，另外一个 div 的 z-index 小，在下层。需要做到点击这 2 个 div 所在的重叠区域，触发下层 div 的点击事件，而不触发上层的 div 点击事件。<br>这里就可以用到 pointer-events 属性。<strong>它可以指定在什么情况下 (如果有) 某个特定的图形元素可以成为鼠标事件的 target</strong>。<br><font color='red'>常用的取值如下：</font></p>
 <ul>
 <li>auto: 默认值，不改变元素上鼠标点击事件的效果</li>
 <li>none: 元素永远不会成为鼠标事件的 target。但是，当其后代元素的 pointer-events 属性指定其他值时，鼠标事件可以指向后代元素，在这种情况下，鼠标事件将在捕获或冒泡阶段触发父元素的事件侦听器。</li>
@@ -350,8 +355,6 @@
 
 <p>经过查看，发现在点击事件之后，轮播的 class 会丢失，丢失的 class 在设置的轮播那一层，会丢失 vertical-wrap、swiper-container-initialized、swiper-container-vertical（这些 class 本身在你定义 Swiper 时会被自动加上，在点击事件之后会丢失）。<br>&emsp;&emsp;&emsp;&emsp;这里我的解决方法是将这三个 class 写死在轮播 class 中，猜想应该是 Swiper 的 bug，后续有时间去看看 Swiper 的源码，看看有没有更优雅的解决方案。</p>
 
-          
-        
       
     </div>
     
@@ -368,136 +371,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/17/article/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XiaoKang Chen">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="kang's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/17/article/" itemprop="url">Nuxt学习笔记</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-17T13:17:42+08:00">
-                2020-05-17
-              </time>
+              <a href="/2020/05/17/article/" rel="next" title="Nuxt学习笔记">
+                <i class="fa fa-chevron-left"></i> Nuxt学习笔记
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="一-Nuxt基本概念"><a href="#一-Nuxt基本概念" class="headerlink" title="一.Nuxt基本概念"></a>一.Nuxt基本概念</h2><h3 id="1-1-Nuxt是什么"><a href="#1-1-Nuxt是什么" class="headerlink" title="1.1 Nuxt是什么"></a>1.1 Nuxt是什么</h3><h3 id="1-2-Nuxt运行流程"><a href="#1-2-Nuxt运行流程" class="headerlink" title="1.2 Nuxt运行流程"></a>1.2 Nuxt运行流程</h3><h3 id="1-3-服务端与单页面区别"><a href="#1-3-服务端与单页面区别" class="headerlink" title="1.3 服务端与单页面区别"></a>1.3 服务端与单页面区别</h3>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2020/05/17/article/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -507,10 +402,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -518,6 +414,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -538,8 +438,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -610,6 +519,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、CSS-部分"><span class="nav-number">1.</span> <span class="nav-text">一、CSS 部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-pointer-events"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 pointer-events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-background-使用-url-问题"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 background 使用 url()问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Js-部分"><span class="nav-number">2.</span> <span class="nav-text">二、Js 部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-window-onload-和-document-ready（js-原生不提供，jQ-的方法）执行顺序"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 window.onload 和$(document).ready（js 原生不提供，jQ 的方法）执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Swiper-组件垂直-loop-下的问题"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Swiper 组件垂直 loop 下的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -764,6 +689,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
