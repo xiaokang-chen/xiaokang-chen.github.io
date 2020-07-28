@@ -75,15 +75,15 @@
 
 
 
-<meta name="description" content="front-end blog">
+<meta name="description" content="一、理解对象创建自定义对象最简单的方法是创建一个 Object 实例，然后再为它添加属性和方法或者通过对象字面量的方式创建： 12345678910111213&#x2F;&#x2F; Object实例方式let person &#x3D; new Object();person.name &#x3D; &#39;Mike&#39;;person.sayHello &#x3D; function()&amp;#123;  ...&amp;#125;&#x2F;&#x2F; 对象字面量方式let p">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js之面向对象程序设计学习">
+<meta property="og:title" content="js之面向对象程序设计学习（上）">
 <meta property="og:url" content="http://yoursite.com/2020/07/28/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="kang&#39;s blog">
-<meta property="og:description" content="front-end blog">
+<meta property="og:description" content="一、理解对象创建自定义对象最简单的方法是创建一个 Object 实例，然后再为它添加属性和方法或者通过对象字面量的方式创建： 12345678910111213&#x2F;&#x2F; Object实例方式let person &#x3D; new Object();person.name &#x3D; &#39;Mike&#39;;person.sayHello &#x3D; function()&amp;#123;  ...&amp;#125;&#x2F;&#x2F; 对象字面量方式let p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-28T02:25:18.000Z">
-<meta property="article:modified_time" content="2020-07-28T02:25:18.030Z">
+<meta property="article:modified_time" content="2020-07-28T03:57:09.982Z">
 <meta property="article:author" content="XiaoKang Chen">
 <meta name="twitter:card" content="summary">
 
@@ -121,7 +121,7 @@
 
 
 
-  <title>js之面向对象程序设计学习 | kang's blog</title>
+  <title>js之面向对象程序设计学习（上） | kang's blog</title>
   
 
 
@@ -275,7 +275,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">js之面向对象程序设计学习</h2>
+          <h2 class="post-title" itemprop="name headline">js之面向对象程序设计学习（上）</h2>
         
 
         <div class="post-meta">
@@ -330,7 +330,68 @@
       
 
       
-        
+        <h2 id="一、理解对象"><a href="#一、理解对象" class="headerlink" title="一、理解对象"></a>一、理解对象</h2><p>创建自定义对象最简单的方法是创建一个 Object 实例，然后再为它添加属性和方法或者通过对象字面量的方式创建：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Object实例方式</span></span><br><span class="line"><span class="keyword">let</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">person.name = <span class="string">'Mike'</span>;</span><br><span class="line">person.sayHello = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 对象字面量方式</span></span><br><span class="line"><span class="keyword">let</span> person = &#123;</span><br><span class="line">  name: <span class="string">'Lucy'</span>,</span><br><span class="line">  sayName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-属性类型"><a href="#1-1-属性类型" class="headerlink" title="1.1 属性类型"></a>1.1 属性类型</h3><p>属性类型包括<strong>数据属性和访问器属性</strong>。</p>
+<ol>
+<li>数据属性<br>数据属性包括以下 4 个描述特征</li>
+</ol>
+<ul>
+<li>[[Configurable]]:是否可以通过 delete 删除属性，默认为 true</li>
+<li>[[Enumerable]]:是否可枚举（能否通过 for-in 循环返回属性），默认为 true</li>
+<li>[[Writable]]:能否修改值，默认为 true</li>
+<li>[[Value]]:属性的值，默认为 undefined<br>想要<strong>修改</strong>属性特性，必须使用 Object.defineProperty(obj, key, descriptor)，其中第三个<strong>描述符</strong>属性为一个对象，接受以上 4 个数据属性描述作为 key</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> person = &#123;&#125;;</span><br><span class="line"><span class="comment">// 描述符为空对象时，Configurable、Enumerable、Writable都为false</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(person, <span class="string">"name"</span>, &#123;&#125;);</span><br><span class="line"><span class="keyword">delete</span> person.name; <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>访问器属性<br>访问器属性不包括数据值，只=只包含一对儿 getter 和 setter 函数，在读取访问器属性时，调用 getter 函数，获取值；写入访问器属性时，调用 setter 函数并传入新值</li>
+</ol>
+<ul>
+<li>[[Configurable]]:是否可以通过 delete 删除属性，默认为 true</li>
+<li>[[Enumerable]]:是否可枚举（能否通过 for-in 循环返回属性），默认为 true</li>
+<li>[[Get]]:读取属性调用的函数，默认为 undefined</li>
+<li>[[Set]]:写入属性调用的函数，默认为 undefined<br>想要<strong>定义</strong>访问器属性，必须使用 Object.defineProperty(obj, key, descriptor)</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> book = &#123;</span><br><span class="line">  _year: <span class="number">2004</span>,</span><br><span class="line">  edition: <span class="number">1</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(book, <span class="string">"year"</span>, &#123;</span><br><span class="line">  <span class="keyword">get</span>: function () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._year;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">set</span>: function (newValue) &#123;</span><br><span class="line">    <span class="keyword">if</span> (newValue &gt; <span class="number">2004</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>._year = newValue;</span><br><span class="line">      <span class="keyword">this</span>.edition += newValue - <span class="number">2004</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">book.year = <span class="number">2005</span>;</span><br><span class="line"><span class="built_in">console</span>.log(book.edition); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p>上述 edition 之所以变成了 2 是因为修改了 year，调用 set 方法，从而使得 edtion 的值发生改变。这也是访问器属性的常用场景：<strong>设置一个属性导致其他属性发生变化</strong>。</p>
+<ol start="3">
+<li>定义多个属性<br>通过 Object.defineProperties(obj, props)</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> book = &#123;&#125;;</span><br><span class="line"><span class="built_in">Object</span>.defineProperties(book, &#123;</span><br><span class="line">  _year: &#123;</span><br><span class="line">    value: <span class="number">2004</span>,</span><br><span class="line">    <span class="comment">// 数据属性字段</span></span><br><span class="line">    ...</span><br><span class="line">  &#125;,</span><br><span class="line">  year: &#123;</span><br><span class="line">    <span class="keyword">get</span>: function()&#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 访问器属性字段</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>读取属性特性<br>通过 Object.getOwnPropertyDescriptor(obj, props)</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> descriptor = <span class="built_in">Object</span>.getOwnPropertyDescriptor(book, <span class="string">"_year"</span>);</span><br><span class="line"><span class="built_in">console</span>.log(descriptor);</span><br><span class="line"><span class="comment">// &#123;configurable: false, enumerable: false, value: 2004, writable: false &#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="二、创建对象"><a href="#二、创建对象" class="headerlink" title="二、创建对象"></a>二、创建对象</h2><p>通过 Object 构造函数或者字面量创建对象有一个明显的缺点：<strong>使用一个接口创建很多对象，产生了大量重复的代码</strong>，通过引入模式的概念来解决这一问题。</p>
+<h3 id="2-1-工厂模式"><a href="#2-1-工厂模式" class="headerlink" title="2.1 工厂模式"></a>2.1 工厂模式</h3><p>工厂模式是软件领域最广为人知的设计模式（创建型），在 java 中，就是“抽象类”的概念。js 中没有类，使用函数来封装以特定接口创建对象的细节：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createPerson</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> o = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  o.name = name;</span><br><span class="line">  o.age = age;</span><br><span class="line">  o.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> o;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p1 = createPerson(<span class="string">"p1"</span>, <span class="number">19</span>);</span><br><span class="line"><span class="keyword">let</span> p2 = createPerson(<span class="string">"p2"</span>, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>工厂模式解决了创建多个相似对象的问题，但是却没有解决<font color='red'>对象识别的问题（对象的类型）</font>，比如本例中 p1 是由 createPerson 函数创建，它应该属于“Person 类型”。</p>
+<h3 id="2-2-构造函数模式"><a href="#2-2-构造函数模式" class="headerlink" title="2.2 构造函数模式"></a>2.2 构造函数模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.seyName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p1 = <span class="keyword">new</span> Person(<span class="string">"p1"</span>, <span class="number">18</span>);</span><br><span class="line"><span class="keyword">let</span> p2 = <span class="keyword">new</span> Person(<span class="string">"p2"</span>, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>构造函数模式和工厂模式有以下的改动：</p>
+<ul>
+<li>没有显式地创建对象</li>
+<li>直接将属性和方法赋给了 this 对象</li>
+<li>没有 return 语句</li>
+<li>创建对象的使用使用了 new 操作符</li>
+</ul>
+<p>new 操作符会经历以下 4 个步骤</p>
+<ol>
+<li>创建一个新对象</li>
+<li>将构造函数作用域赋给新对象（此时 this 指向了这个新对象）</li>
+<li>执行构造函数中的代码（为新对象添加属性）</li>
+<li>返回新对象</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person(<span class="string">"name"</span>, <span class="number">20</span>);</span><br><span class="line"><span class="comment">// new等同于以下步骤</span></span><br><span class="line"><span class="keyword">let</span> p = &#123;&#125;;</span><br><span class="line">p.__proto__ = Person.prototype;</span><br><span class="line">Person.call(p, <span class="string">"name"</span>, <span class="number">20</span>);</span><br><span class="line"><span class="keyword">return</span> p;</span><br></pre></td></tr></table></figure>
+
+<p>构造函数模式中对象 p 中，p.constructor 保存了对象的类型（Person），解决了对象无法识别的问题。但是这种模式也有缺点，就是每个方法都要在每个实例上重新创建一遍。上述的 p1 和 p2，都是 Person 的实例，他们都包含了相同的 sayName 方法，但是两个方法不是同一个 Function 实例，而是创建了两遍。</p>
+
       
     </div>
     
@@ -414,8 +475,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -486,6 +556,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、理解对象"><span class="nav-number">1.</span> <span class="nav-text">一、理解对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-属性类型"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 属性类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、创建对象"><span class="nav-number">2.</span> <span class="nav-text">二、创建对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-工厂模式"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-构造函数模式"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 构造函数模式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
