@@ -257,7 +257,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/23/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E4%B8%AD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XiaoKang Chen">
@@ -276,7 +276,185 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/07/28/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0/" itemprop="url">js之面向对象程序设计学习（上）</a></h2>
+                <a class="post-title-link" href="/2020/08/23/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E4%B8%AD/" itemprop="url">js之面向对象程序设计学习（中）</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-08-23T17:10:34+08:00">
+                2020-08-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="二、创建对象"><a href="#二、创建对象" class="headerlink" title="二、创建对象"></a>二、创建对象</h2><p>在上一节说到使用构造函数模式创建对象有一个缺点：<font color='red'>每个方法在每个实例上都需要重新创建一遍</font>。然而往往这些方法在实例上是相同的，所以创建两个完成同样任务的 Function 实例完全没有必要，所以我们可以像下面这样<strong>把函数定义在构造函数之外</strong>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age, job</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.job = job;</span><br><span class="line">  <span class="keyword">this</span>.sayName = sayName;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这种方式虽然可以解决相同类型实例间共享同一函数的问题，但是由于函数定义在<strong>全局作用域</strong>中，所以该函数（sayName）在作用域的角度来看，应该可以被所有的对象调用，但是实际上，在这里，它只是 Person 实例的私有方法，这很容易引起混淆。并且最致命的问题是：<font color='red'>在全局定义的方法会污染全局作用域</font>（当多个构造函数想使用名字相同、内容不同的函数时，是做不到的）。<strong>这个问题可以通过原型模式来解决</strong></p>
+<h3 id="2-3-原型模式"><a href="#2-3-原型模式" class="headerlink" title="2.3 原型模式"></a>2.3 原型模式</h3><p>js 中实现继承的概念和 java 中的类不同，他是通过原型链来实现的，以一张图以蔽之：</p>
+<p><img src="../pic/2/1.jpg" alt="原型链图"></p>
+<h4 id="2-3-1-原型的理解"><a href="#2-3-1-原型的理解" class="headerlink" title="2.3.1 原型的理解"></a>2.3.1 原型的理解</h4><p>我们创建的每一个函数都会有一个 prototype（原型）属性，该属性指向的是一个对象，该对象就是函数的原型对象。使用原型对象的好处在于可以<strong>让所有对象实例共享它所包含的属性和方法</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.name = <span class="string">"xiaokang"</span>;</span><br><span class="line">Person.prototype.age = <span class="string">"26"</span>;</span><br><span class="line">Person.prototype.job = <span class="string">"programmer"</span>;</span><br><span class="line">Person.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"more better!"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>创建两个 Person 实例，查看他们共享 say 方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p1 = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">let</span> p2 = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="built_in">console</span>.log(p1.say === p2.say); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>不光是方法，包括属性（name, age, job）都被实例所共享。如果我们想在不同实例上使用相同的属性具有代表自己的值，则可以直接在实例中创建同名的属性，<strong>该属性会屏蔽原型中的那个属性</strong>，<font color='red'>这个就是 js 中重要的原型链作用域。</font></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p1.name = <span class="string">"xiaoming"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(p1.name); <span class="comment">// xiaoming --- 来自实例</span></span><br><span class="line"><span class="built_in">console</span>.log(p2.name); <span class="comment">// xiaokang --- 来自原型链</span></span><br></pre></td></tr></table></figure>
+
+<p>在实例上设置了与原型相同属性，只会“屏蔽”，不会修改原型的属性，可以使用 delete 操作符来删除实例上的实例属性，来“解除屏蔽”：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> p1.name;</span><br><span class="line"><span class="built_in">console</span>.log(p1.name); <span class="comment">// xiaokang --- 删除实例上的name属性后，解除屏蔽，返回原型上name属性的值</span></span><br></pre></td></tr></table></figure>
+
+<p>原型的检测使用 hasOwnProperty()方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p1.hasOwnProperty(<span class="string">"name"</span>); <span class="comment">// false</span></span><br><span class="line">p1.name = <span class="string">"xiaoli"</span>;</span><br><span class="line">p1.hasOwnProperty(<span class="string">"name"</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-2-对象属性"><a href="#2-3-2-对象属性" class="headerlink" title="2.3.2 对象属性"></a>2.3.2 对象属性</h4><p>对象的属性有一个特性叫做<strong>可枚举</strong>—enumerate，这个在我们手动创建实例属性的时候默认为 true，只有在通过 Object.defineProperty（或者复数形式）创建时，才可以显式的指定。<br>&emsp;&emsp;在对象的属性遍历上，我们有三种方式：</p>
+<ol>
+<li>Object.keys<br>遍历对象本身的所有可枚举属性</li>
+<li>Object.getOwnPropertyNames<br>遍历对象本身的所有可枚举与不可枚举属性</li>
+<li>for…in<br>遍历对象本身及原型链上所有可枚举属性</li>
+</ol>
+<p>在上面我们的原型模式中，每声明一个属性或方法都需要写一遍 Person.prototype，所以更简便的方法通常如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  name: <span class="string">"xiaokang"</span>,</span><br><span class="line">  age: <span class="number">26</span>,</span><br><span class="line">  job: <span class="string">"programmer"</span>,</span><br><span class="line">  say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"be better!"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>上面这种写法简便了操作，但是有一个严重的问题是<font color='red'>因为 Person 的原型对象被重新赋值（本质上是完全重写了默认的 prototype 对象）</font>，所以原有的 constructor 属性就没了。</p>
+<p>为了解决这个问题，可以像下面这个这样做：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  <span class="keyword">constructor</span>: Person,</span><br><span class="line">  name: "xiaokang",</span><br><span class="line">  age: 26,</span><br><span class="line">  job: "programmer",</span><br><span class="line">  say: function () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"be better!"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>但是这里注意！上面我们说到直接给对象设置的属性，属性的[[Enumerable]]会为 true。而很明显，函数声明后，默认的 constructor 是不可枚举的，所以这里可以使用 Object.defineProperty 来解决这个问题：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  name: <span class="string">"xiaokang"</span>,</span><br><span class="line">  age: <span class="number">26</span>,</span><br><span class="line">  job: <span class="string">"programmer"</span>,</span><br><span class="line">  say: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"be better!"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(Person.prototype, <span class="string">"constructor"</span>, &#123;</span><br><span class="line">  enumerable: <span class="literal">false</span>,</span><br><span class="line">  value: Person,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>思考：<strong>上面这种重写原型的模式能用么？</strong><br>答案：<strong>根本不行！</strong></p>
+<p>原因：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Person();</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  <span class="keyword">constructor</span>: Person,</span><br><span class="line">  name: "xiaokang",</span><br><span class="line">  age: 26,</span><br><span class="line">  job: "programmer",</span><br><span class="line">  say: function () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"be better!"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">p.say(); <span class="comment">// error</span></span><br></pre></td></tr></table></figure>
+
+<p>这种重写了原型的方式会导致原型链“断链”，即 say 方法声明在了“新的原型”上，而先前使用 Person 实例化出来的 p 对象，它的<strong>proto</strong>已经绑定了“旧的原型”，而使用 p 调用 say 方法，只会从自身开始沿着“旧的原型”向上找，显然找不到。</p>
+<h4 id="2-3-3-原型模式的问题及原生对象的启发"><a href="#2-3-3-原型模式的问题及原生对象的启发" class="headerlink" title="2.3.3 原型模式的问题及原生对象的启发"></a>2.3.3 原型模式的问题及原生对象的启发</h4><ol>
+<li>原型模式的问题</li>
+</ol>
+<p>原型模式的最大的问题在于：<font color='red'>当原型上声明引用类型的属性时，会导致不同实例无法拥有独有属性值(他们会共用同一个值)</font></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  <span class="keyword">constructor</span>: Person,</span><br><span class="line">  name: "xiaokang",</span><br><span class="line">  age: 26,</span><br><span class="line">  job: ["programmer", "worker"],</span><br><span class="line">  say: function () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"be better!"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a1 = <span class="keyword">new</span> Person();</span><br><span class="line"><span class="keyword">let</span> a2 = <span class="keyword">new</span> Person();</span><br><span class="line">a1.job.push(<span class="string">"doctor"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a1.job); <span class="comment">// ['programmer', 'worker', 'doctor']</span></span><br><span class="line"><span class="built_in">console</span>.log(a2.job); <span class="comment">// ['programmer', 'worker', 'doctor']</span></span><br><span class="line"><span class="built_in">console</span>.log(a1.job === a2.job); <span class="comment">// true --- 指针相同</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>实例一般都是要有自己的属性，所以很少有人单独使用原型模式来创建对象</strong></p>
+<ol start="2">
+<li>原生对象的启发</li>
+</ol>
+<p>我们看到像 Array、Object、String 等原生的构造函数，他们的方法都是定义在其原型上，而在原生构造函数实例化的对象上，声明实例独有的属性，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Array</span>.prototype.sort); <span class="comment">// function</span></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">arr[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 属性0，值为1</span></span><br></pre></td></tr></table></figure>
+
+<p>所以更一般的，我们<strong>组合使用构造函数模式和原型模式</strong>创建对象，这也是<font color='blue'>ECMAScript 目前使用最广泛，认同度最高的创建自定义类型的方法！！！</font></p>
+<h3 id="2-4-组合使用构造函数模式和原型模式"><a href="#2-4-组合使用构造函数模式和原型模式" class="headerlink" title="2.4 组合使用构造函数模式和原型模式"></a>2.4 组合使用构造函数模式和原型模式</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">  <span class="keyword">this</span>.job = [<span class="string">"a"</span>, <span class="string">"b"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype = &#123;</span><br><span class="line">  <span class="keyword">constructor</span>: Person,</span><br><span class="line">  sayName: function () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>属性定义在构造函数中，方法定义在原型上。在不要求 constructor 字段可枚举性时，可以直接在原型内部显式定义。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E4%B8%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XiaoKang Chen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="kang's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/28/js%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AD%A6%E4%B9%A0%E4%B8%8A/" itemprop="url">js之面向对象程序设计学习（上）</a></h2>
         
 
         <div class="post-meta">
@@ -866,7 +1044,7 @@
               
                 <a href="/archives/%7C%7Carchive">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
